@@ -1,10 +1,8 @@
 const router = require('express').Router();
 const { Post, User, Comment } = require('../../models');
-const sequelize = require('../../config/connection');
 const withAuth = require('../../utils/auth');
 
 router.get('/', (req, res) => {
-    console.log('======================');
     Post.findAll({
             attributes: ['id',
                 'title',
@@ -35,6 +33,7 @@ router.get('/', (req, res) => {
         });
 
 });
+
 router.get('/:id', (req, res) => {
     Post.findOne({
             where: {
@@ -95,7 +94,7 @@ router.put('/:id', withAuth, (req, res) => {
             }
         }).then(dbPostData => {
             if (!dbPostData) {
-                res.status(404).json({ message: 'No post found with this id' });
+                res.status(404).json({ message: 'No post found' });
                 return;
             }
             res.json(dbPostData);
@@ -105,6 +104,7 @@ router.put('/:id', withAuth, (req, res) => {
             res.status(500).json(err);
         });
 });
+
 router.delete('/:id', withAuth, (req, res) => {
     Post.destroy({
         where: {
@@ -112,7 +112,7 @@ router.delete('/:id', withAuth, (req, res) => {
         }
     }).then(dbPostData => {
         if (!dbPostData) {
-            res.status(404).json({ message: 'No post found with this id' });
+            res.status(404).json({ message: 'No post found' });
             return;
         }
         res.json(dbPostData);

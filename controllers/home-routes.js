@@ -86,6 +86,7 @@ router.get('/post/:id', (req, res) => {
             res.status(500).json(err);
         });
 });
+
 router.get('/posts-comments', (req, res) => {
     Post.findOne({
             where: {
